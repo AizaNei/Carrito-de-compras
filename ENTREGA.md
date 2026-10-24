@@ -1,8 +1,8 @@
 # Entrega · Laboratorio 3.1 · Introducción a la automatización de pruebas
 
-**Equipo:** `equipo-N` · **Integrantes:** _nombres_ · **Repositorio:** _enlace a este repositorio_
+**Equipo:** `equipo-N` · **Integrantes:** Neiver Fernández · **Repositorio:** https://github.com/AizaNei/Carrito-de-compras
 
-> ⚠️ Antes de entregar: reemplacen `equipo-N`, los nombres, el enlace y cada `CDC-??` por la clave real del bug en Jira.
+> ⚠️ Antes de entregar: reemplacen `equipo-N` y cada `CDC-??` por la clave real del bug en Jira.
 > Las claves están en un solo lugar: `pages/bugs-jira.ts` (y en la tabla 2 de abajo).
 
 ## 1. ¿Qué automatizamos y por qué? (decisión)
