@@ -1,27 +1,21 @@
 import { test, expect } from '@playwright/test';
+import { BUG } from '../pages/bugs-jira';
 
 /**
- * PRUEBAS HEREDADAS (Parte 4).
- *
- * Las dejó otro equipo, y nadie sabe por qué fallan: están en CUARENTENA (test.fixme), que es lo que hacen los
- * equipos reales con pruebas rojas que no entienden, para no frenar a los demás.
- *
- * Su trabajo, una por una:
- *   1. Saquen la prueba de cuarentena (borren su línea test.fixme) y ejecútenla.
- *   2. Diagnostiquen QUÉ falla: ¿el PRODUCTO (bug), la PRUEBA (defecto de la prueba), la INESTABILIDAD o el ENTORNO?
- *      Para detectar inestabilidad ejecútenla muchas veces:  npx playwright test heredados -g H3 --repeat-each=10
- *   3. Dejen cada una en su estado correcto y anoten el veredicto en ENTREGA.md.
- * No las "arreglen" a ciegas: un rojo no siempre es un bug.
+ * PRUEBAS HEREDADAS (Parte 4) · ya diagnosticadas. El veredicto y la evidencia están en ENTREGA.md, sección 3.
  */
 
-test('H1 · el catálogo tiene 6 productos', async ({ page }) => {
-  test.fixme(true, 'En cuarentena: nadie sabe por qué falla'); // ← borren esta línea para ejecutarla
+// H1 · VEREDICTO: DEFECTO DE LA PRUEBA. US-01 CA1 dice 8 productos y la tienda muestra 8 (lib/products.ts).
+// La prueba tenía un dato viejo (6, el mínimo de RF-01). Corrección: esperar 8.
+test('H1 · el catálogo tiene 8 productos', async ({ page }) => {
   await page.goto('/');
-  await expect(page.getByRole('heading', { level: 3 })).toHaveCount(6);
+  await expect(page.getByRole('heading', { level: 3 })).toHaveCount(8);
 });
 
+// H2 · VEREDICTO: BUG DEL PRODUCTO (B10). El oráculo es correcto: 2 mochilas = $ 130.000; DESC20 = $ 26.000;
+// IVA = 19 % de $ 104.000 = $ 19.760. La tienda muestra $ 24.700 (19 % de $ 130.000). Falla siempre igual.
 test('H2 · el IVA de 2 mochilas con DESC20 es $ 19.760', async ({ page }) => {
-  test.fixme(true, 'En cuarentena: nadie sabe por qué falla'); // ← borren esta línea para ejecutarla
+  test.fail(true, BUG.B10_IVA_SIN_DESCUENTO);
   await page.goto('/');
   const tarjeta = page
     .locator('.rounded-lg')
@@ -33,9 +27,23 @@ test('H2 · el IVA de 2 mochilas con DESC20 es $ 19.760', async ({ page }) => {
   await expect(page.locator('dt:text-is("IVA (19%)") + dd')).toHaveText('$ 19.760');
 });
 
+// H3 · VEREDICTO: PRUEBA INESTABLE. Con waitUntil: 'domcontentloaded' hacía clic en el HTML que manda el servidor
+// antes de que React terminara de cargar (hidratar) la página; ese clic no hace nada y a veces el cuaderno no llega
+// al carrito. Corrección SIN pausas fijas: esperar a que la página termine de cargar (goto por defecto espera "load")
+// y que el clic sí haya tenido efecto: el contador del encabezado pasa a "1 artículo(s)".
 test('H3 · agregar un cuaderno justo después de cargar', async ({ page }) => {
-  test.fixme(true, 'En cuarentena: nadie sabe por qué falla'); // ← borren esta línea para ejecutarla
-  await page.goto('/', { waitUntil: 'domcontentloaded' });
-  await page.getByRole('button', { name: 'Agregar' }).first().click();
-  await expect(page.getByRole('listitem').filter({ hasText: 'Cuaderno universitario' })).toBeVisible();
+  await page.goto('/');
+  const tarjeta = page
+    .locator('.rounded-lg')
+    .filter({ has: page.getByRole('heading', { name: 'Cuaderno universitario', level: 3 }) });
+  const carrito = page.locator('.rounded-lg').filter({ has: page.getByRole('heading', { name: 'Carrito' }) });
+
+  // Reintenta el clic SOLO si el anterior no tuvo efecto (página aún sin hidratar); nunca agrega dos veces.
+  await expect(async () => {
+    if ((await carrito.getByRole('listitem').count()) === 0) {
+      await tarjeta.getByRole('button', { name: 'Agregar' }).click();
+    }
+    await expect(carrito.getByRole('listitem').filter({ hasText: 'Cuaderno universitario' })).toBeVisible({ timeout: 1000 });
+  }).toPass();
+  await expect(page.getByRole('banner')).toContainText('1 artículo(s)');
 });
