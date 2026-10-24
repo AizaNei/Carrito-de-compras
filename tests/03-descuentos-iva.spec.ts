@@ -104,10 +104,10 @@ test.describe('US-11 · Ver el IVA correcto', () => {
 });
 
 test.describe('US-12 · Ver el total a pagar correcto', () => {
-  // Mismo defecto que US-11 CA2 (page.tsx calcula el IVA antes del descuento): un solo bug en Jira (B10)
-  // que cubre los dos criterios.
+  // Misma causa que US-11 CA2 (page.tsx calcula el IVA antes del descuento), pero es otro criterio:
+  // en Jira es el bug de US-12 (CDC-39), enlazado al de US-11 (CDC-36).
   test('CA2: con descuento, el total es subtotal − descuento + IVA (IVA sobre lo descontado)', async ({ page }) => {
-    test.fail(true, BUG.B10_IVA_SIN_DESCUENTO);
+    test.fail(true, BUG.B10_TOTAL_CON_DESCUENTO);
     await abrirConMochilas(page);
 
     await aplicar(page, 'DESC10');
