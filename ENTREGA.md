@@ -30,7 +30,7 @@ Todas quedaron con `test.fail(true, 'CLAVE · …')`. La evidencia es el reporte
 
 | Prueba (archivo › título) | Bug en Jira (clave) | ¿Quedó con `test.fail(...)`? | Evidencia (Expected → Received) |
 |---|---|---|---|
-| 02-carrito › US-04 CA3: 4 + 4 mochilas supera el stock (6) y debe rechazarse | CDC-?? (B03) | Sí | cantidad "4" → "8" |
+| 02-carrito › US-04 CA3: 4 + 4 mochilas supera el stock (6) y debe rechazarse | CDC-14 (B03) | Sí | cantidad "4" → "8" |
 | 02-carrito › US-05 CA2: "+" no pasa del stock (6 mochilas) | CDC-?? (B04) | Sí | "6" → "7" |
 | 02-carrito › US-06 CA2: con cantidad 1, "−" no la deja en 0 ni en negativo (se queda en 1) | CDC-?? (B05) | Sí | "1" → "0" |
 | 03-descuentos-iva › US-09 CA3: el código "desc10" / "Desc10" se reconoce igual que DESC10 (2 filas) | CDC-?? (B07) | Sí, solo esas 2 filas | descuento "$ 6.500" → "$ 0" (" DESC10 " sí pasa) |

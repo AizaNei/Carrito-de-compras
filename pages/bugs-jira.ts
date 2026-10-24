@@ -6,7 +6,7 @@
  * Así, cuando el docente lea el reporte, cada fallo esperado dice qué issue lo documenta.
  */
 export const BUG = {
-  B03_STOCK_SUMA: 'CDC-?? (B03) · 4 + 4 mochilas supera el stock de 6',
+  B03_STOCK_SUMA: 'CDC-14 (B03) · 4 + 4 mochilas supera el stock de 6',
   B04_MAS_SIN_TOPE: 'CDC-?? (B04) · "+" sube la cantidad por encima del stock',
   B05_MENOS_SIN_PISO: 'CDC-?? (B05) · "−" deja la cantidad en 0 y en negativo',
   B07_MAYUSCULAS: 'CDC-?? (B07) · los códigos en minúsculas o mezclados no se reconocen',
