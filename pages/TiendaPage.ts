@@ -1,13 +1,8 @@
 import { type Locator, type Page } from '@playwright/test';
 
 /**
- * PARTE 5 · PAGE OBJECT DE LA TIENDA.
- *
- * Las pruebas cuentan la HISTORIA ("agrego una mochila y aplico DESC10"); los localizadores (el "cómo")
- * viven aquí, en un solo lugar. Si la tienda cambia su HTML, se corrige esta clase y las pruebas siguen intactas.
- *
- * Regla de oro: el Page Object ofrece ACCIONES (agregar, aplicarCodigo...) y entrega LOCALIZADORES (cantidad, total...).
- * Las aserciones (expect) se quedan en las pruebas.
+ * Page Object de la tienda: acciones (agregar, aplicarCodigo…) y localizadores (cantidad, total…).
+ * Las aserciones se hacen en las pruebas.
  */
 
 export const DATOS_VALIDOS = {

@@ -4,10 +4,7 @@ import { BUG } from '../pages/bugs-jira';
 
 /**
  * BLOQUE CONFIRMACIÓN · US-16 a US-19.
- *
- * PARTE 5 · PRUEBAS MIGRADAS AL PAGE OBJECT: todo este archivo usa TiendaPage. Un pedido completo
- * (agregar + ir a pagar + llenar datos + confirmar) se escribe una sola vez: tienda.comprar(...).
- * Cada prueba arranca con el navegador limpio (carrito vacío, sin memoria de la anterior).
+ * Pruebas migradas al Page Object (TiendaPage). Un pedido completo se hace con tienda.comprar(...).
  */
 
 test.describe('US-16 · Que mis datos no queden a la vista de otra persona', () => {

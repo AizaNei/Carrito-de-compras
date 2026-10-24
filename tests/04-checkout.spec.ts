@@ -36,9 +36,8 @@ async function irAlFormulario(page: Page) {
 test.describe('US-13 · Ir a pagar desde el carrito', () => {
   test('CA3: con total cero o negativo no se puede ir a pagar', async ({ page }) => {
     test.fail(true, BUG.B11_TOTAL_CERO);
-    // ARRANGE: 1 mochila y "−" para llevar la cantidad a 0 (posible hoy por el bug B05).
-    // OJO: cuando corrijan B05 esta preparación deja de funcionar (el "−" ya no baja de 1) y la prueba fallará en
-    // la línea del "$ 0". En ese momento hay que buscar otra forma de llegar a total 0 o retirar la prueba.
+    // ARRANGE: 1 mochila y "−" para llevar la cantidad a 0 (hoy es posible por el bug B05).
+    // Si se corrige B05 ya no se llega a total $ 0 por esta vía y la preparación de esta prueba cambia.
     await page.goto('/');
     const tarjeta = page
       .locator('.rounded-lg')
@@ -48,8 +47,8 @@ test.describe('US-13 · Ir a pagar desde el carrito', () => {
     // ACT
     await page.getByRole('button', { name: 'Disminuir cantidad de Mochila escolar' }).click();
 
-    // ASSERT: si el total es $ 0 (o menos), "Ir a pagar" debe estar deshabilitado.
-    // Es OTRO criterio y OTRO bug que US-06 CA2: aunque se corrija el "−", falta validar el total antes de cobrar.
+    // ASSERT: con total $ 0, "Ir a pagar" está deshabilitado.
+    // Es un criterio y un bug distintos de US-06 CA2: aunque se corrija el "−", falta validar el total antes de cobrar.
     await expect(page.locator('dt:text-is("Total") + dd')).toHaveText('$ 0');
     await expect(page.getByRole('button', { name: 'Ir a pagar' })).toBeDisabled();
   });

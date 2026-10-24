@@ -1,9 +1,6 @@
 /**
- * Claves de Jira de los bugs que detecta la suite, en un solo lugar.
- *
- * Cada clave es el issue "BUG US-xx" de la historia en Jira (proyecto CDC).
- * El código entre paréntesis (B03, B04…) es el del documento "Bugs y depuración · QA Tienda Escolar".
- * Así, cuando el docente lea el reporte, cada fallo esperado dice qué issue lo documenta.
+ * Bugs del producto que detecta la suite, con su clave de Jira (issue "BUG US-xx" del proyecto CDC).
+ * Entre paréntesis va el código interno del bug (B03, B04…).
  */
 export const BUG = {
   B03_STOCK_SUMA: 'CDC-14 (B03) · 4 + 4 mochilas supera el stock de 6',

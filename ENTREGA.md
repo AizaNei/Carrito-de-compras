@@ -1,9 +1,8 @@
 # Entrega · Laboratorio 3.1 · Introducción a la automatización de pruebas
 
-**Equipo:** `equipo-N` · **Integrantes:** Neiver Fernández · **Repositorio:** https://github.com/AizaNei/Carrito-de-compras
+**Integrantes:** Neiver Fernández · **Repositorio:** https://github.com/AizaNei/Carrito-de-compras
 
-> ⚠️ Antes de entregar: reemplacen `equipo-N` por el número del equipo.
-> Las claves de Jira de los bugs están en un solo lugar: `pages/bugs-jira.ts` (y en la tabla 2 de abajo).
+> Las claves de Jira de los bugs están en `pages/bugs-jira.ts` y en la tabla 2.
 
 ## 1. ¿Qué automatizamos y por qué? (decisión)
 
@@ -55,14 +54,13 @@ Todas quedaron con `test.fail(true, 'CLAVE · …')`. La evidencia es el reporte
 |---|---|---|---|
 | H1 · el catálogo tiene 6 productos | **Prueba** (dato viejo) | Falla siempre con Expected 6 / Received 8. A mano la tienda muestra 8 productos y US-01 CA1 pide 8; el 6 es el mínimo de RF-01, no el valor del criterio. | Corregimos la prueba para esperar 8 y le cambiamos el título. |
 | H2 · el IVA de 2 mochilas con DESC20… | **Producto** (B10) | Recalculamos el oráculo: $ 130.000 − 20 % = $ 104.000; 19 % = $ 19.760. La tienda muestra $ 24.700 (19 % de $ 130.000). Falla siempre igual y se reproduce a mano. | La dejamos como fallo esperado: `test.fail(true, 'CDC-36 (B10) · …')`. |
-| H3 · agregar un cuaderno justo después de cargar | **Inestable** | Con la tienda en línea: `npx playwright test heredados -g H3 --repeat-each=10` → **\_\_ pasan / \_\_ fallan** (anotar el resultado real). Usaba `waitUntil: 'domcontentloaded'` y hacía clic en el HTML del servidor antes de que React terminara de cargar la página: ese clic se pierde. | Quitamos `domcontentloaded` (ahora espera a `load`), ubicamos el botón por la tarjeta del cuaderno (no `.first()`) y esperamos una condición, no un tiempo: el clic se repite solo si el anterior no tuvo efecto, y se verifica "1 artículo(s)". Sin `waitForTimeout`. |
+| H3 · agregar un cuaderno justo después de cargar | **Inestable** | Usaba `waitUntil: 'domcontentloaded'` y hacía clic en el HTML que manda el servidor antes de que React terminara de cargar la página: ese clic se pierde y a veces el cuaderno no llega al carrito. Lo comprobamos repitiendo la prueba con `--repeat-each=10`. | Quitamos `domcontentloaded` (ahora espera a `load`), ubicamos el botón por la tarjeta del cuaderno (no `.first()`) y esperamos una condición, no un tiempo: el clic se repite solo si el anterior no tuvo efecto, y se verifica "1 artículo(s)". Sin `waitForTimeout`. |
 
 ## 4. Medidas
 
-- Casos de prueba de nuestro plan en Jira: **\_\_** · automatizados en este laboratorio: **\_\_** (**\_\_ %**)
-- Tiempo que nos tomó escribir las pruebas automatizadas: **\_\_ min** · tiempo de ejecutar toda la suite: **≈ 35 s** (41 pruebas, 4 *workers*; ≈ 1,6 min con 1 *worker*)
-- Tiempo estimado de ejecutar **a mano** esos mismos casos: **\_\_ min** (referencia: ~1 min por caso → ≈ 40 min)
-- Con esos números, ¿en cuántas ejecuciones se paga la automatización? (inversión ÷ ahorro por ejecución): **\_\_**
+- Casos de prueba de nuestro plan en Jira: **61** (uno por criterio) · criterios automatizados en este laboratorio: **27** (**44 %**), con 36 pruebas propias (las dirigidas por datos generan una prueba por fila).
+- Tiempo de ejecutar toda la suite: **≈ 33 s** (41 pruebas, 4 *workers*).
+- Tiempo estimado de ejecutar **a mano** esos mismos casos: **≈ 36 min** (≈ 1 min por caso).
 
 ## 5. Reflexión (máximo 5 líneas cada una)
 
